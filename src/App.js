@@ -79,12 +79,11 @@ function useCenterX() {
 
 const baseWidth = 40;
 const baseMargin = 5;
+const validDistanceOffset = baseWidth * 3.5 + baseMargin * 6;
 
 function Img({ src, mouseX }) {
   const { ref, x } = useCenterX();
   const controls = useAnimation();
-
-  const validDistanceOffset = baseWidth * 3.5 + baseMargin * 6;
 
   // const d = distance(x ?? 0, mouseX ?? 0);
   // const c = clamp(0, validDistanceOffset, d);
