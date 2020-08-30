@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { clamp, distance } from 'popmotion';
+import React, { useRef } from 'react';
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import useRaf from '@rooks/use-raf';
 
 import chrome from './logos/chrome.svg';
 import docs from './logos/docs.svg';
@@ -39,16 +39,14 @@ const images = [
 ];
 
 function Dock() {
-  const [mouseX, setMouseX] = useState();
-
-  // console.log(mouseX);
+  const mouseX = useMotionValue(null);
 
   return (
     <div className="dock">
       <div
         className="icons"
-        onMouseOver={(event) => setMouseX(event.nativeEvent.x)}
-        onMouseLeave={() => setMouseX(null)}
+        onMouseMove={(event) => mouseX.set(event.nativeEvent.x)}
+        onMouseLeave={() => mouseX.set(null)}
       >
         {images.map((image, index) => (
           <Img src={image} key={index} mouseX={mouseX} />
@@ -58,96 +56,54 @@ function Dock() {
   );
 }
 
-function useCenterX() {
-  const [x, updateX] = useState();
+const baseWidth = 40;
+const baseMargin = 5;
+const distanceLimit = baseWidth * 6;
+const distanceInput = [
+  -distanceLimit,
+  -distanceLimit / 1.25,
+  -distanceLimit / 2,
+  0,
+  distanceLimit / 2,
+  distanceLimit / 1.25,
+  distanceLimit,
+];
+const widthOutput = [
+  baseWidth,
+  baseWidth * 1.3,
+  baseWidth * 1.7,
+  baseWidth * 2.5,
+  baseWidth * 1.7,
+  baseWidth * 1.3,
+  baseWidth,
+];
+
+function Img({ src, mouseX }) {
+  const distance = useMotionValue(distanceLimit + 1);
+  const width = useSpring(useTransform(distance, distanceInput, widthOutput), {
+    stiffness: 50,
+  });
 
   const ref = useRef();
 
-  useEffect(() => {
-    // console.log(ref.current);
-    updateX(
-      ref.current?.getBoundingClientRect().left +
-        ref.current?.getBoundingClientRect().width / 2
-    );
-  });
+  useRaf(() => {
+    const el = ref.current;
+    const mouseXVal = mouseX.get();
+    if (el && mouseXVal !== null) {
+      const rect = el.getBoundingClientRect();
 
-  return {
-    ref,
-    x,
-  };
-}
+      distance.set(mouseXVal - (rect.left + rect.width / 2));
+      return;
+    }
 
-const baseWidth = 40;
-const baseMargin = 5;
-const validDistanceOffset = baseWidth * 3.5 + baseMargin * 6;
-
-function Img({ src, mouseX }) {
-  const { ref, x } = useCenterX();
-  const controls = useAnimation();
-
-  // const d = distance(x ?? 0, mouseX ?? 0);
-  // const c = clamp(0, validDistanceOffset, d);
-  // console.log({
-  //   src,
-  //   d,
-  //   c,
-  //   scaleFactor: c / validDistanceOffset,
-  // });
-
-  useEffect(() => {
-    const scaledWidth =
-      mouseX && x
-        ? baseWidth *
-          (2 -
-            clamp(0, validDistanceOffset, distance(x, mouseX)) /
-              validDistanceOffset)
-        : baseWidth;
-
-    controls.start({
-      width: scaledWidth,
-      transition: {
-        stiffness: 200,
-        velocity: 10,
-      },
-    });
-  }, [x, mouseX]);
+    distance.set(distanceLimit + 1);
+  }, true);
 
   return (
     <motion.img
       ref={ref}
       src={src}
-      animate={controls}
-      style={{ width: baseWidth, margin: baseMargin, height: 'auto' }}
+      style={{ width, margin: baseMargin, height: 'auto', originX: 1 }}
     />
   );
 }
-
-// function Icon({ children, focused, setFocusedIndex, index })
-
-//   return <motion.div layoutId={index} style={{  }} onMouseEnter={() => setFocusedIndex(index)} onMouseLeave={() => setFocusedIndex(null)}>
-//       {}
-//     </motion.div>
-// }
-
-// function Icon({ children, focused, setFocusedIndex, index }) {
-//   const controls = useAnimation();
-
-//   useEffect(() => {
-//     const scale = calculateScaleFactor(focused, index);
-
-//     controls.start({ scale, padding: 5 });
-//   }, [focused, controls, index]);
-
-//   return (
-//     <motion.div
-//       whileHover={{ scale: 1.75 }}
-//       onMouseEnter={() => setFocusedIndex(index)}
-//       onMouseLeave={() => setFocusedIndex(null)}
-//       initial={{ scale: 1 }}
-//       style={{ originY: 1 }}
-//       animate={controls}
-//     >
-//       {children}
-//     </motion.div>
-//   );
-// }
