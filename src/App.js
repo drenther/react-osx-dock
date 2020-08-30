@@ -81,7 +81,8 @@ const widthOutput = [
 function Img({ src, mouseX }) {
   const distance = useMotionValue(distanceLimit + 1);
   const width = useSpring(useTransform(distance, distanceInput, widthOutput), {
-    stiffness: 50,
+    stiffness: 100,
+    damping: 20,
   });
 
   const ref = useRef();
