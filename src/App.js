@@ -16,14 +16,6 @@ import vlc from './logos/vlc.svg';
 
 import './styles.css';
 
-export default function App() {
-  return (
-    <div className="app">
-      <Dock />
-    </div>
-  );
-}
-
 const images = [
   chrome,
   docs,
@@ -37,6 +29,14 @@ const images = [
   steam,
   vlc,
 ];
+
+export default function App() {
+  return (
+    <div className="app">
+      <Dock />
+    </div>
+  );
+}
 
 function Dock() {
   const mouseX = useMotionValue(null);
@@ -69,8 +69,8 @@ function Dock() {
 }
 
 const baseWidth = 40;
-const baseMargin = 5;
 const distanceLimit = baseWidth * 6;
+const beyondTheDistanceLimit = distanceLimit + 1;
 const distanceInput = [
   -distanceLimit,
   -distanceLimit / 1.25,
@@ -91,7 +91,7 @@ const widthOutput = [
 ];
 
 function Img({ src, mouseX }) {
-  const distance = useMotionValue(distanceLimit + 1);
+  const distance = useMotionValue(beyondTheDistanceLimit);
   const width = useSpring(useTransform(distance, distanceInput, widthOutput), {
     damping: 25,
     stiffness: 250,
@@ -105,18 +105,14 @@ function Img({ src, mouseX }) {
     if (el && mouseXVal !== null) {
       const rect = el.getBoundingClientRect();
 
-      distance.set(mouseXVal - (rect.left + rect.width / 2));
+      const imgCenterX = rect.left + rect.width / 2;
+
+      distance.set(mouseXVal - imgCenterX);
       return;
     }
 
-    distance.set(distanceLimit + 1);
+    distance.set(beyondTheDistanceLimit);
   }, true);
 
-  return (
-    <motion.img
-      ref={ref}
-      src={src}
-      style={{ width, margin: baseMargin, height: 'auto', originX: 1 }}
-    />
-  );
+  return <motion.img ref={ref} src={src} className="icon" style={{ width }} />;
 }

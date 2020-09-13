@@ -48,3 +48,8 @@ body,
 img {
   cursor: pointer;
 }
+
+.icon {
+  padding: 5px;
+  height: auto;
+}

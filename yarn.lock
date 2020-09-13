@@ -7239,16 +7239,6 @@ popmotion@9.0.0-rc.12:
     style-value-types "^3.1.9"
     tslib "^1.10.0"
 
-popmotion@^9.0.0-rc.7:
-  version "9.0.0-rc.7"
-  resolved "https://registry.yarnpkg.com/popmotion/-/popmotion-9.0.0-rc.7.tgz#b9f8ceddc322bc7489dd443355889d46be0ce211"
-  integrity sha512-sjPhOJtrQAQsSKsn5KKi0Q1E2pjnLozZ08m0zWX1OqPX3ERPH0txG2zwwHMnDoAHGHAkVujlAdFZ4ERLbKGMDA==
-  dependencies:
-    framesync "^4.0.4"
-    hey-listen "^1.0.8"
-    style-value-types "^3.1.9"
-    tslib "^1.10.0"
-
 portfinder@^1.0.9:
   version "1.0.28"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.28.tgz#67c4622852bd5374dd1dd900f779f53462fac778"
@@ -8178,13 +8168,6 @@ react-error-overlay@^6.0.3:
   version "6.0.7"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha512-TAv1KJFh3RhqxNvhzxj6LeT5NWklP6rDr2a0jaTfsZ5wSZWHOGeqQyejUp3xxLfPt2UpyJEcVQB/zyPcmonNFA==
-
-react-icons@3.11.0:
-  version "3.11.0"
-  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.11.0.tgz#2ca2903dfab8268ca18ebd8cc2e879921ec3b254"
-  integrity sha512-JRgiI/vdF6uyBgyZhVyYJUZAop95Sy4XDe/jmT3R/bKliFWpO/uZBwvSjWEdxwzec7SYbEPNPck0Kff2tUGM2Q==
-  dependencies:
-    camelcase "^5.0.0"
 
 react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"
