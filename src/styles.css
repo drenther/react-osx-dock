@@ -16,6 +16,17 @@ body,
   background: oldlace;
 }
 
+.credits {
+  font-family: sans-serif;
+  padding: 10px;
+  text-align: center;
+  color: darkgoldenrod;
+}
+
+.credits a {
+  color: blueviolet;
+}
+
 .dock {
   width: 100%;
   position: absolute;

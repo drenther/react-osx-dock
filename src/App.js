@@ -42,17 +42,29 @@ function Dock() {
   const mouseX = useMotionValue(null);
 
   return (
-    <div className="dock">
-      <div
-        className="icons"
-        onMouseMove={(event) => mouseX.set(event.nativeEvent.x)}
-        onMouseLeave={() => mouseX.set(null)}
-      >
-        {images.map((image, index) => (
-          <Img src={image} key={index} mouseX={mouseX} />
-        ))}
+    <>
+      <div className="credits">
+        All the icons are from{' '}
+        <a
+          href="https://www.flaticon.com/"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Flaticon
+        </a>
       </div>
-    </div>
+      <div className="dock">
+        <div
+          className="icons"
+          onMouseMove={(event) => mouseX.set(event.nativeEvent.x)}
+          onMouseLeave={() => mouseX.set(null)}
+        >
+          {images.map((image, index) => (
+            <Img src={image} key={index} mouseX={mouseX} />
+          ))}
+        </div>
+      </div>
+    </>
   );
 }
 
