@@ -105,9 +105,14 @@ function Img({ src, mouseX }) {
     if (el && mouseXVal !== null) {
       const rect = el.getBoundingClientRect();
 
+      // get the x coordinate of the img DOMElement's center
+      // the left x coordinate plus the half of the width
       const imgCenterX = rect.left + rect.width / 2;
 
-      distance.set(mouseXVal - imgCenterX);
+      // difference between the x coordinate value of the mouse pointer
+      // and the img center x coordinate value
+      const distanceDelta = mouseXVal - imgCenterX;
+      distance.set(distanceDelta);
       return;
     }
 
